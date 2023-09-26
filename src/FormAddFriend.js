@@ -1,35 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
+import Button from "./Button";
 
-function FormAddFriend() {
+function FormAddFriend({ onAddFriend }) {
+  const [name, setName] = useState("");
+  const [image, setImage] = useState("https://i.pravatar.cc/48");
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!name || !image) return;
+    const id = crypto.randomUUID();
+    const newFrind = {
+      name,
+      image: `${image}?=${id}`,
+      balance: 0,
+      id,
+    };
+
+    onAddFriend(newFrind);
+    console.log(newFrind);
+    setName("");
+    setImage("");
+  }
   return (
-    <div>
-      <form className=" flex items-end justify-center flex-col mt-6 mx-10 px-10 py-4 bg-yellow-50 rounded-xl ">
-        <div className="  flex items-center justify-center mb-5 gap-x-4">
-          <label className=" font-bold text-gray-600 text-base">
-            👭 Friend name
-          </label>
-          <input
-            type="text"
-            className=" rounded-lg px-4 text-sm font-semibold text-gray-700"
-          />
-        </div>
+    <form className="form-add-friend" onSubmit={handleSubmit}>
+      <label>👫Friend name</label>
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
 
-        <div className=" flex items-center justify-center mb-5 gap-x-4">
-          <label className=" font-bold text-base bold text-gray-600">
-            📷 Image url
-          </label>
-          <input
-            type="text"
-            className=" rounded-lg px-4 text-sm font-semibold text-gray-700"
-          />
-        </div>
-        <div>
-          <button className=" bg-yellow-500 hover:bg-yellow-600 py-2 px-16 rounded-lg mb-5 font-semibold text-sm">
-            Add
-          </button>
-        </div>
-      </form>
-    </div>
+      <label>🌄 Image URL</label>
+      <input
+        type="text"
+        value={image}
+        onChange={(e) => setImage(e.target.value)}
+      />
+
+      <Button>Add</Button>
+    </form>
   );
 }
 

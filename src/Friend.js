@@ -1,34 +1,25 @@
-import React from "react";
 import Button from "./Button";
 
-function Friend({ image, name, balance }) {
+export default function Friend({ friend }) {
   return (
-    <li className=" flex justify-between my-6 mx-4">
-      <div className=" flex items-center">
-        <img src={image} alt="" className=" rounded-full" />
-        <div className=" flex items-start ml-10 flex-col">
-          <h2 className=" text-lg text-gray-700 font-bold">{name} </h2>
+    <li>
+      <img src={friend.image} alt={friend.name} />
+      <h3>{friend.name}</h3>
+      {friend.balance < 0 && (
+        <p className="red">
+          You owe {friend.name} {Math.abs(friend.balance)}$
+        </p>
+      )}
 
-          {balance < 0 && (
-            <p className=" text-red-500 text-sm font-semibold">
-              You owe {name} {Math.abs(balance)}€
-            </p>
-          )}
+      {friend.balance > 0 && (
+        <p className="green">
+          {friend.name} owes You {Math.abs(friend.balance)}$
+        </p>
+      )}
 
-          {balance > 0 && (
-            <p className=" text-green-500 text-sm font-semibold">
-              {name} owes you {Math.abs(balance)}€
-            </p>
-          )}
+      {friend.balance === 0 && <p>You and {friend.name} are even</p>}
 
-          {balance === 0 && (
-            <p className="text-sm font-semibold">You and {name} are even</p>
-          )}
-        </div>
-      </div>
       <Button>Select</Button>
     </li>
   );
 }
-
-export default Friend;
